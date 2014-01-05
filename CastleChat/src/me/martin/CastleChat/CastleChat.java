@@ -1,11 +1,11 @@
 package me.martin.CastleChat;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+//import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+//import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,19 +20,19 @@ public class CastleChat extends JavaPlugin implements Listener {
         
         @EventHandler
         public void onChat(AsyncPlayerChatEvent event){
-        	
         	String m = event.getMessage();
         	Boolean swear = false;
         	
         	if(m.indexOf("server") != -1 && m.indexOf("admin") != -1){
-        		if(m.indexOf("suck") != -1){
+        		if(m.indexOf("suck") != -1 || m.indexOf("asshole") != -1 || m.indexOf("ashole") != -1 ||
+        		   m.indexOf("stupid") != -1 || m.indexOf("shit") != -1){
 	        		event.setCancelled(true);
 	        		String ign = event.getPlayer().getName();
 	        		Boolean warn = false;
 	        		for (int i = 0; i < warned.length; i++){
 	        			if(warned[i] == ign){
 	        				event.getPlayer().setBanned(true);
-	        				event.getPlayer().kickPlayer("Bye bye, we don't need you on our server.");
+	        				event.getPlayer().kickPlayer("Bye, we don't need you on our server and you dont need us.");
 	        				warn = true;
 	        			}
 	        		}
@@ -62,7 +62,7 @@ public class CastleChat extends JavaPlugin implements Listener {
         	event.setMessage(m);
         	
         	if(swear){
-        		event.getPlayer().sendMessage(ChatColor.YELLOW + "Dont swear!");
+        		event.getPlayer().sendMessage(ChatColor.YELLOW + "Dont swear, peace!");
         	}
         }
         
