@@ -1,5 +1,7 @@
 package me.martin.CastleChat;
 
+import org.anjocaido.groupmanager.GroupManager;
+import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 import org.bukkit.ChatColor;
 //import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,10 +14,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CastleChat extends JavaPlugin implements Listener {
 		
 		String[] warned = new String[100];
+		private GroupManager groupManager;
 	
         public void onEnable(){
         	PluginManager pm = getServer().getPluginManager();
-        	pm.registerEvents(new CastleChat(), this);          
+        	pm.registerEvents(new CastleChat(), this);
+        	groupManager = (GroupManager)pm.getPlugin("GroupManager");
         }
         
         @EventHandler
@@ -32,7 +36,7 @@ public class CastleChat extends JavaPlugin implements Listener {
 	        		for (int i = 0; i < warned.length; i++){
 	        			if(warned[i] == ign){
 	        				event.getPlayer().setBanned(true);
-	        				event.getPlayer().kickPlayer("Bye, we don't need you on our server and you dont need us.");
+	        				event.getPlayer().kickPlayer("Bye, we don't need you on our server and vice versa.");
 	        				warn = true;
 	        			}
 	        		}
@@ -43,7 +47,8 @@ public class CastleChat extends JavaPlugin implements Listener {
         		}
         	}
         	
-        	event.setFormat(ChatColor.GREEN + "%s" + ChatColor.DARK_GRAY + " » " + ChatColor.WHITE + "%s");
+        	final AnjoPermissionsHandler handler = groupManager.getWorldsHolder().getWorldPermissions(event.getPlayer());
+        	event.setFormat(handler.getUserPrefix(event.getPlayer().getName()) + ChatColor.GREEN + "%s" + ChatColor.DARK_GRAY + " » " + ChatColor.WHITE + "%s");
         	
         	if(m.indexOf("suck") != -1){
         		m.replace("suck", "☠");
